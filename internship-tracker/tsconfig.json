@@ -2,6 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "jsx": "react-jsx",
+    "noImplicitAny": true,
     "baseUrl": "src",
     "paths": {
       "@components/*": ["components/*"],
