@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const backgroundStyle: React.CSSProperties = {
   minHeight: "100vh",
@@ -11,6 +12,8 @@ const backgroundStyle: React.CSSProperties = {
 
 const Signup = () => {
   interface SignupForm {
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
   }
@@ -24,22 +27,32 @@ const Signup = () => {
 
   async function handleSubmit() {
     try {
-      const res = axios.post("http://localhost:8080/api/auth/signup", signup);
-      console.log(res);
+      if (signup.email.trim() === "" || signup.password.trim() === "") {
+        alert("Please fill out email address and password");
+        return;
+      }
+
+      const res = await axios.post(
+        "http://localhost:8080/api/auth/register",
+        signup
+      );
+      console.log(res.data);
     } catch (error) {
       console.log("error message: ", error);
     }
   }
 
   const [signup, setSignup] = useState<SignupForm>({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
 
   return (
     <div style={backgroundStyle}>
-      <div className="container" style={{ maxWidth: "450px" }}>
-        <div className="card p-4 shadow-lg">
+      <div className="container" style={{ maxWidth: "600px" }}>
+        <div className="card p-5 shadow-lg">
           <h1 className="text-center mb-4">Sign up here</h1>
 
           <form>
@@ -52,6 +65,7 @@ const Signup = () => {
                 name="email"
                 value={signup.email}
                 onChange={(e) => handleChange({ email: e.target.value })}
+                required
               />
             </div>
             <div className="mb-3">
@@ -63,20 +77,58 @@ const Signup = () => {
                 name="password"
                 value={signup.password}
                 onChange={(e) => handleChange({ password: e.target.value })}
+                required
+              />
+            </div>
+
+            <h5>Optional</h5>
+
+            <div className="mb-3">
+              <label className="form-label">First Name</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="First Name"
+                name="firstName"
+                value={signup.firstName}
+                onChange={(e) => handleChange({ email: e.target.value })}
+                required
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">First Name</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Last Name"
+                name="lastName"
+                value={signup.lastName}
+                onChange={(e) => handleChange({ email: e.target.value })}
+                required
               />
             </div>
           </form>
           <button
+            className="btn btn-primary"
             onClick={handleSubmit}
             style={{
+              marginTop: "20px",
               borderRadius: "5px",
-              height: "40px",
+              height: "50px",
               width: "200px",
               alignSelf: "center",
+              fontSize: "20px",
             }}
           >
             Register
           </button>
+          <Link
+            style={{ alignSelf: "center", marginTop: "30px", fontSize: "20px" }}
+            to={"/login"}
+          >
+            Already have an account? Login Here!
+          </Link>
         </div>
       </div>
     </div>
