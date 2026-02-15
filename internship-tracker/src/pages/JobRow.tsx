@@ -25,6 +25,17 @@ export const JobRow = (job: Job) => {
       <td>{job.company}</td>
       <td>{job.addedOn}</td>
       <td>{job.url}</td>
+      <td
+        style={{
+          maxWidth: "400px",
+          wordWrap: "break-word",
+          whiteSpace: "normal",
+        }}
+      >
+        <ul>
+          <li>{job.description}</li>
+        </ul>
+      </td>
     </tr>
   );
 };
