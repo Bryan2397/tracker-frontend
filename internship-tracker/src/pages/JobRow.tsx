@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { Job } from "../types/Job";
 
 export const JobRow = (job: Job) => {
+  const [show, setShow] = useState<boolean>(false);
+
   const getStatusClass = (status: string) => {
     switch (status) {
       case "APPLIED":
@@ -24,7 +27,9 @@ export const JobRow = (job: Job) => {
       </td>
       <td>{job.company}</td>
       <td>{job.addedOn}</td>
-      <td>{job.url}</td>
+      <td>
+        <a href={job.url}>JOB LINK</a>
+      </td>
       <td
         style={{
           maxWidth: "400px",
@@ -32,9 +37,13 @@ export const JobRow = (job: Job) => {
           whiteSpace: "normal",
         }}
       >
-        <ul>
-          <li>{job.description}</li>
-        </ul>
+        <button
+          className="btn btn-sm btn-outline-secondary"
+          onClick={() => setShow(!show)}
+        >
+          {show ? "Hide" : "Show"}
+        </button>
+        {show && job.description}
       </td>
     </tr>
   );
