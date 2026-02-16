@@ -45,6 +45,12 @@ const AddJob = () => {
     <div className="container mt-4">
       <h2 style={{ marginBottom: "40px" }}>Add Job</h2>
 
+      <div className="mb-3">
+        <label className="d-block">Use AI to Save time!!</label>
+        <input className="mb-2"></input>
+        <button className="d-block btn btn-primary">Send to AI</button>
+      </div>
+
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">Title</label>
