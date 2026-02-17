@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Job } from "../types/Job";
 const AddJob = () => {
+  const [description, setDescription] = useState<string>("");
+
   const [formData, setFormData] = useState<Job>({
     title: "",
     url: "",
@@ -45,10 +47,20 @@ const AddJob = () => {
     <div className="container mt-4">
       <h2 style={{ marginBottom: "40px" }}>Add Job</h2>
 
-      <div className="mb-3">
-        <label className="d-block">Use AI to Save time!!</label>
-        <input className="mb-2"></input>
-        <button className="d-block btn btn-primary">Send to AI</button>
+      <div className="mb-5">
+        <label className="d-block" style={{ fontSize: "30px" }}>
+          <strong>Use AI to Save time!!</strong>
+        </label>
+        <textarea
+          className="mb-2 mt-3 form-control form-control-lg"
+          rows={10}
+        ></textarea>
+        <button
+          onClick={() => alert("AI analyzing...")}
+          className="d-block btn btn-primary"
+        >
+          Send to AI
+        </button>
       </div>
 
       <form onSubmit={handleSubmit}>
