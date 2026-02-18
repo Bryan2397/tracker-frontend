@@ -4,8 +4,10 @@ export interface Job {
   dateApplied?: string;
   company: string;
   addedOn: string;
-  status: "APPLIED" | "OA" | "INTERVIEW" | "OFFER" | "REJECTED";
+  status: "APPLIED" | "OA" | "INTERVIEW" | "OFFER" | "REJECTED" | "NOT_APPLIED";
   notes?: string;
   jobSummary: string;
   location?: string;
+  salary?: string;
+  skills: string[];
 }
