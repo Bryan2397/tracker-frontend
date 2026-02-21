@@ -1,19 +1,10 @@
 import { useState } from "react";
-import { Job } from "../types/Job";
+import { Job, jobData } from "../types/Job";
+import axios from "axios";
 const AddJob = () => {
   const [description, setDescription] = useState<string>("");
 
-  const [formData, setFormData] = useState<Job>({
-    title: "",
-    url: "",
-    dateApplied: "",
-    company: "",
-    addedOn: new Date().toISOString().split("T")[0],
-    status: "APPLIED",
-    notes: "",
-    jobSummary: "",
-    location: "",
-  });
+  const [formData, setFormData] = useState<Partial<Job>>({});
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -43,6 +34,30 @@ const AddJob = () => {
     */
   };
 
+  const handleChatResponse = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const result = await axios.post<jobData>(
+        "http://localhost:8080/api/chat/description",
+        {
+          params: { description },
+        },
+      );
+      const aiData = result.data;
+      console.log(aiData);
+      setFormData((prev) => ({
+        ...prev,
+        ...aiData,
+        status: "NOT_APPLIED",
+        location: aiData.location,
+        addedOn: new Date().toISOString(),
+      }));
+    } catch (error) {
+      console.log(error);
+      alert("error in AI extraction");
+    }
+  };
+
   return (
     <div className="container mt-4">
       <h2 style={{ marginBottom: "40px" }}>Add Job</h2>
@@ -54,9 +69,16 @@ const AddJob = () => {
         <textarea
           className="mb-2 mt-3 form-control form-control-lg"
           rows={10}
-        ></textarea>
+          placeholder="Place the Job description here"
+          value={description}
+          onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+            setDescription(event.target.value)
+          }
+        >
+          {description}
+        </textarea>
         <button
-          onClick={() => alert("AI analyzing...")}
+          onClick={handleChatResponse}
           className="d-block btn btn-primary"
         >
           Send to AI
@@ -127,6 +149,7 @@ const AddJob = () => {
             value={formData.status}
             onChange={handleChange}
           >
+            <option value="NOT_APPLIED">NOT_APPLIED</option>
             <option value="APPLIED">APPLIED</option>
             <option value="OA">OA</option>
             <option value="INTERVIEW">INTERVIEW</option>
