@@ -11,3 +11,11 @@ export interface Job {
   salary?: string;
   skills: string[];
 }
+
+export interface jobData {
+  company: string;
+  title: string;
+  location: string;
+  salary: string;
+  skills: string[];
+}
